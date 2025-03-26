@@ -1,10 +1,8 @@
-import tempfile
-
 import streamlit as st
 from gmft.auto import AutoTableDetector, AutoTableFormatter
-from gmft.pdf_bindings.pdfium import PyPDFium2Document
 
 from detect import ingest_pdf
+from pdf import create_temp_pdf
 
 def main() -> None:
     st.title("PDF to CSV Converter")
@@ -18,12 +16,9 @@ def main() -> None:
     if converting.button("Convert PDF to CSV", disabled=False, key="convert_button1"):
         converting.button("Converting...", disabled=True, key="convert_button2")
 
-        with tempfile.NamedTemporaryFile() as f:
-            f.write(uploaded_file.getbuffer())
-
+        with create_temp_pdf(uploaded_file) as doc:
             detector = AutoTableDetector()
             formatter = AutoTableFormatter()
-            doc = PyPDFium2Document(f.name)
 
             for page, table_iter in ingest_pdf(detector, doc):
                 st.header(f"{uploaded_file.name} - Page {page}")
