@@ -4,7 +4,7 @@ from io import BytesIO
 import tempfile
 
 from gmft.pdf_bindings.base import BasePDFDocument
-from gmft.pdf_bindings.pdfium import PyPDFium2Document
+from gmft_pymupdf import PyMuPDFDocument
 
 @contextmanager
 def create_temp_pdf(buffer: BytesIO) -> Iterator[BasePDFDocument]:
@@ -12,7 +12,7 @@ def create_temp_pdf(buffer: BytesIO) -> Iterator[BasePDFDocument]:
         f.write(buffer.getbuffer())
         f.flush()
 
-        doc = PyPDFium2Document(f.name)
+        doc = PyMuPDFDocument(f.name)
 
         try:
             yield doc
