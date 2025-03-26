@@ -6,6 +6,6 @@ def detect_tables(detector: BaseDetector, page: BasePage) -> Iterator[CroppedTab
     for table in detector.detect(page):
         yield table
 
-def ingest_pdf(detector: BaseDetector[ConfigT], doc: BasePDFDocument) -> Iterator[Tuple[int, Iterator[CroppedTable]]]:
+def ingest_pdf(detector: BaseDetector[ConfigT], doc: BasePDFDocument) -> Iterator[Tuple[BasePage, Iterator[CroppedTable]]]:
     for page in doc:
-        yield page.page_number, detect_tables(detector, page)
+        yield page, detect_tables(detector, page)

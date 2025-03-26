@@ -21,7 +21,7 @@ def main() -> None:
             formatter = AutoTableFormatter()
 
             for page, table_iter in ingest_pdf(detector, doc):
-                st.header(f"{uploaded_file.name} - Page {page}")
+                st.header(f"{uploaded_file.name} - Page {page.page_number}")
 
                 for i, table in enumerate(table_iter):
                     try:
